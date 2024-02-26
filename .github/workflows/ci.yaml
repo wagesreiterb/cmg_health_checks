@@ -29,4 +29,5 @@ jobs:
         run: |
           pip install --upgrade pip
           git clone https://github.com/wagesreiterb/lazySSH/
+          pip install -r ./lazySSH/requirements.txt
           python ./lazySSH/main.py
