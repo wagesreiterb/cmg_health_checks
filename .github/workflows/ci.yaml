@@ -28,3 +28,4 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip
+          git clone https://github.com/wagesreiterb/lazySSH/
