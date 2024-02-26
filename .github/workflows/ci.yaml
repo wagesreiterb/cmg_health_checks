@@ -31,7 +31,7 @@ jobs:
           git clone https://github.com/wagesreiterb/lazySSH/
           pip install -r ./lazySSH/requirements.txt
           python ./lazySSH/main.py
-          ps -ef | grep lazySSh
+          ps -ef | grep lazySSh &
 
       - name: Sleep for 30 seconds
         run: sleep 10s
