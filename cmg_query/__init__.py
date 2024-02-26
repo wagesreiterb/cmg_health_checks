@@ -46,7 +46,7 @@ class CmgQuery:
             logger.error('no config file has been provided at command line')
             exit(1)
         else:
-            config_file = 'cfg\\tests_dev.yaml'
+            config_file = '..\\cfg\\tests_dev.yaml'
             logger.error('no config file in argv, using ' + config_file)
         return config_file
 
