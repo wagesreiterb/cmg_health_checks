@@ -30,4 +30,9 @@ jobs:
           pip install --upgrade pip
           git clone https://github.com/wagesreiterb/lazySSH/
           pip install -r ./lazySSH/requirements.txt
-          python ./lazySSH/main.py
+          python ./lazySSH/main.py &
+
+      - name: Test with unittest
+        run: |
+          cd cmg_health_checks
+          python -m unittest -v unittests.TestCmgQuery
