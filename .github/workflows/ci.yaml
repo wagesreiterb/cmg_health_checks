@@ -34,4 +34,4 @@ jobs:
 
       - name: Test with unittest
         run: |
-          python -m unittest discover -s ./test  -p 'test_*.py'
+          python -m unittest discover -s ./test  -p 'test_*.py' $GITHUB_WORKSPACE/cfg/tests_dev.yaml
