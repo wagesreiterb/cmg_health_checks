@@ -30,12 +30,9 @@ jobs:
           pip install --upgrade pip
           git clone https://github.com/wagesreiterb/lazySSH/
           pip install -r ./lazySSH/requirements.txt
-          python ./lazySSH/main.py
-          ps -ef | grep lazySSh &
-
-      - name: Sleep for 30 seconds
-        run: sleep 10s
-        shell: bash
+          python ./lazySSH/main.py &
+          sleep 10s
+          ps -ef | grep lazySSh
 
       - name: Test with unittest
         run: |
