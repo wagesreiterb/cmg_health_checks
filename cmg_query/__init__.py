@@ -5,7 +5,7 @@ import yaml
 import sys
 from cmg_query.logger import logger
 from cmg_query import error_codes as error_codes
-# hallo
+# hello
 
 
 class CmgQuery:
