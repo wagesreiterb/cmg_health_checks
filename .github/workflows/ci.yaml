@@ -35,4 +35,4 @@ jobs:
       - name: Test with unittest
         run: |
           cd cmg_health_checks
-          python -m unittest -v unittests.TestCmgQuery
+          python -m unittest discover -s ./test  -p 'test_*.py'
