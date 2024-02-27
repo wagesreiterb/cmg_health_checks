@@ -32,8 +32,11 @@ jobs:
           pip install -r ./lazySSH/requirements.txt
           python ./lazySSH/main.py &
           sleep 10s
-          ps -ef | grep lazySSh
+          echo "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          ps -ef | grep python
 
       - name: Test with unittest
         run: |
+          echo "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
+          ps -ef | grep python
           python -m unittest discover -s ./test  -p 'test_*.py'
