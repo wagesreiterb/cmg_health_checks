@@ -3,9 +3,9 @@ host:
     port: 2222
     username: cmg
     password: cmg
-# bfd_session_count:
-#   6203: 4
-#   9999: 8
+bfd_session_count:
+  6203: 4
+  9999: 8
 test_pings:
   - ping router 6203 source 10.251.74.130 10.251.74.129 count 1
   - ping router 6207 source 10.122.171.130 10.122.171.129 count 1
