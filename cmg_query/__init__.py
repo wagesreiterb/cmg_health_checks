@@ -51,8 +51,8 @@ class CmgQuery:
             logger.info('no config file has been provided at command line')
             exit(1)
         else:
-            config_file = 'cfg\\tests_dev.yaml'
-            # config_file = '/home/runner/work/cmg_health_checks/cmg_health_checks/cfg/tests_dev.yaml'
+            # config_file = 'cfg\\tests_dev.yaml'
+            config_file = '/home/runner/work/cmg_health_checks/cmg_health_checks/cfg/tests_dev.yaml'
             logger.info('no config file in argv, using ' + config_file)
         return config_file
 
