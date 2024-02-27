@@ -39,4 +39,5 @@ jobs:
         run: |
           echo "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
           ps -ef | grep python
+          netstat -aon
           python3 -m unittest discover -s ./test  -p 'test_*.py'
