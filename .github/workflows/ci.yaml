@@ -30,7 +30,7 @@ jobs:
           pip install --upgrade pip
           git clone https://github.com/wagesreiterb/lazySSH/
           pip install -r ./lazySSH/requirements.txt
-          python ./lazySSH/main.py &
+          python3 ./lazySSH/main.py &
           sleep 10s
           echo "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
           ps -ef | grep python
@@ -39,4 +39,4 @@ jobs:
         run: |
           echo "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
           ps -ef | grep python
-          python -m unittest discover -s ./test  -p 'test_*.py'
+          python3 -m unittest discover -s ./test  -p 'test_*.py'
