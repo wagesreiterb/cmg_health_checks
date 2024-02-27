@@ -28,10 +28,15 @@ class CmgQuery:
         # CONTINUE_TEXT = 'Press any key to continue'
         # Todo: why does the below string work?
         self.cmg_continue_text = 'Press any key to continue'
-        self.__outfile = open('myfile.txt', 'w')
+        try:
+            self.__outfile = open('myfile.txt', 'w')
+        except Exception as error:
+            logger.error(error)
+            exit(1)
 
     def __del__(self):
-        self.__outfile.close()
+        if self.__outfile:
+            self.__outfile.close()
         self.disconnect()
 
     def get_client(self):
@@ -43,15 +48,15 @@ class CmgQuery:
         if len(sys.argv) == 2:
             config_file = sys.argv[1]
             # logger.error(error_codes.error_codes['ERR_NO_CONFIG_FILE']['error_message'])
-            logger.error('no config file has been provided at command line')
+            logger.info('no config file has been provided at command line')
             exit(1)
         else:
             # config_file = 'cfg\\tests_dev.yaml'
             config_file = '/home/runner/work/cmg_health_checks/cmg_health_checks/cfg/tests_dev.yaml'
-            logger.error('no config file in argv, using ' + config_file)
+            logger.info('no config file in argv, using ' + config_file)
         return config_file
 
-    def __read_config_file(self, config_file_name):
+    def __read_config_file(self, config_file_name: str):
         try:
             with open(config_file_name, 'r') as f:
                 config_file = yaml.safe_load(f)
@@ -67,8 +72,10 @@ class CmgQuery:
         logger.info('trying to connect to ' + self.__ip + ':' + str(self.__port))
         self.__client = paramiko.client.SSHClient()
         self.__client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        # Todo: shall this be changed to
+        #  https://stackoverflow.com/questions/7159644/does-paramiko-close-ssh-connection-on-a-non-paramiko-exception
         try:
-            self.__client.connect(self.__ip, self.__port, self.__username, self.__password)
+            self.__client.connect(self.__ip, self.__port, self.__username, self.__password, banner_timeout=200)
         except Exception as error:
             # logger.error(error_codes.error_codes['ERR_UNABLE_TO_CONNECT']['error_message'])
             logger.error(error)
