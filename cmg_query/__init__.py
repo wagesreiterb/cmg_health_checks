@@ -51,8 +51,8 @@ class CmgQuery:
             logger.info('no config file has been provided at command line')
             exit(1)
         else:
-            # config_file = 'cfg\\tests_dev.yaml'
-            config_file = '/home/runner/work/cmg_health_checks/cmg_health_checks/cfg/tests_dev.yaml'
+            config_file = 'cfg\\tests_dev.yaml'
+            # config_file = '/home/runner/work/cmg_health_checks/cmg_health_checks/cfg/tests_dev.yaml'
             logger.info('no config file in argv, using ' + config_file)
         return config_file
 
@@ -75,7 +75,7 @@ class CmgQuery:
         # Todo: shall this be changed to
         #  https://stackoverflow.com/questions/7159644/does-paramiko-close-ssh-connection-on-a-non-paramiko-exception
         try:
-            self.__client.connect(self.__ip, self.__port, self.__username, self.__password, banner_timeout=200)
+            self.__client.connect(self.__ip, self.__port, self.__username, self.__password)
         except Exception as error:
             # logger.error(error_codes.error_codes['ERR_UNABLE_TO_CONNECT']['error_message'])
             logger.error(error)
