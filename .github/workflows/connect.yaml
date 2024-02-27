@@ -1,24 +1,9 @@
-name: connect
-
-on:
-  pull_request:
-    branches:
-      - '*'
-  push:
-    branches:
-      - master
-      - main
-
-  workflow_dispatch:
-
-permissions:
-  id-token: write
-  contents: read
-  actions: read
-
+name: CI
+on: [push]
 jobs:
-  connect:
-    name: connect
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: self-actuated/connect-ssh@master
+    - uses: actions/checkout@v3
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
