@@ -43,5 +43,5 @@ jobs:
           netstat -aon
           sudo iptables -S
           sudo ifconfig -a
-          ssh -t cmg@127.0.0.1 -p 2222
+          ssh -tt cmg@127.0.0.1 -p 2222
           python3 -m unittest discover -s ./test  -p 'test_*.py'
