@@ -22,6 +22,6 @@ class TestCmgQuery(unittest.TestCase):
     def test_show_router_9999_bfd_session(self):
         self.cmg.connect('127.0.0.1')
         ping_command = 'ping router 6203 source 10.251.74.130 10.251.74.129 count 1'
-        cmg_output = self.__cmg_output(ping_command)
+        cmg_output = self.cmg.cmg_output(ping_command)
         result = self.__ping_result(ping_command, cmg_output)
         self.cmg.disconnect()

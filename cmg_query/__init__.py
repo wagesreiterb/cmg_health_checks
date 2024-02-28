@@ -121,7 +121,7 @@ class CmgQuery:
 
         return output
 
-    def __cmg_output(self, _cmd):
+    def cmg_output(self, _cmd):
         result = ""
         # Todo: is \r also needed for the real CMG and does it work?!
         self.__channel.sendall(_cmd + "\r\n")
@@ -138,12 +138,12 @@ class CmgQuery:
         # Todo: error handling if command is wrong
         ping_commands = self.__config_file['test_pings']
         for ping_command in ping_commands:
-            cmg_output = self.__cmg_output(ping_command)
+            cmg_output = self.cmg_output(ping_command)
             logger.debug(cmg_output)
-            result = self.__ping_result(ping_command, cmg_output)
+            result = self.ping_result(ping_command, cmg_output)
             self.__outfile.write(str(result) + '\n')
 
-    def __ping_result(self, command, cmg_output):
+    def ping_result(self, command, cmg_output):
         # searches the string '0.00% packet loss' within the output received from the CMG
         # '0.00% packet loss' means the test has passed
         for line in cmg_output.split('\r\n'):
@@ -237,6 +237,6 @@ class CmgQuery:
         # Todo: error handling if command is wrong
         show_router_commands = self.__config_file['test_bfd_sessions']
         for show_router_command in show_router_commands:
-            cmg_output = self.__cmg_output(show_router_command)
+            cmg_output = self.cmg_output(show_router_command)
             logger.debug(cmg_output)
             self.__bfd_sessions(show_router_command, cmg_output)
