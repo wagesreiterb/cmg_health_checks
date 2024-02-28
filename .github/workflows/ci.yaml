@@ -38,7 +38,7 @@ jobs:
 
       - name: Test with unittest
         run: |
-          # echo "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
+          # echo "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
           # ps -ef | grep python
           # ls -l /home/runner/work/cmg_health_checks/cmg_health_checks/cfg/tests_dev.yaml
           # netstat -aon
