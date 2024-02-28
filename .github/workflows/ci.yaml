@@ -30,21 +30,22 @@ jobs:
           pip install --upgrade pip
           git clone https://github.com/wagesreiterb/lazySSH/
           pip install -r ./lazySSH/requirements.txt
-          python3 ./lazySSH/main.py &
-          sleep 10s
-          echo "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-          ps -ef | grep python
+          cd ~/work/lazySSH
+          python3 ./main.py &
+          # sleep 10s
+          # echo "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          # ps -ef | grep python
 
       - name: Test with unittest
         run: |
-          echo "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
-          ps -ef | grep python
-          ls -l /home/runner/work/cmg_health_checks/cmg_health_checks/cfg/tests_dev.yaml
-          netstat -aon
-          sudo iptables -S
-          sudo ifconfig -a
-          echo "1111"
-          ssh -v -tt cmg@127.0.0.1 -p 2222
+          # echo "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
+          # ps -ef | grep python
+          # ls -l /home/runner/work/cmg_health_checks/cmg_health_checks/cfg/tests_dev.yaml
+          # netstat -aon
+          # sudo iptables -S
+          # sudo ifconfig -a
+          # echo "1111"
+          # ssh -v -tt cmg@127.0.0.1 -p 2222
           echo "2222"
           python3 -m unittest discover -s ./test  -p 'test_*.py'
           echo "3333"
