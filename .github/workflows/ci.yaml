@@ -30,7 +30,7 @@ jobs:
           pip install --upgrade pip
           git clone https://github.com/wagesreiterb/lazySSH/
           pip install -r ./lazySSH/requirements.txt
-          cd ~/work/lazySSH
+          cd ./lazySSH/
           python3 ./main.py &
           # sleep 10s
           # echo "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
