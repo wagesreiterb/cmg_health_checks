@@ -1,23 +1,5 @@
-Status; Comment; testcase
-NOK; No. of BFD sessions: 8 counted: 7; show router 100012000 bfd session
+NOK, No. of BFD sessions: 8 counted: 7, show router 100012000 bfd session
 OK, all 4 bfd sessions are Up, show router 6203 bfd session
 NOK, all 4 bfd sessions are Up, show router 9999 bfd session
-
-Status; Comment; testcase
 ('OK', '0.00% packet loss', 'ping router 6203 source 10.251.74.130 10.251.74.129 count 1')
 ('NOK', '100% packet loss', 'ping router 6207 source 10.122.171.130 10.122.171.129 count 1')
-
-
-[
-    {'Status': 'NOK', 'Comment': ''No. of BFD sessions: 8 counted: 7', 'test': 'show router 100012000 bfd session'}
-    {'Status': 'NOK', 'Comment': ''No. of BFD sessions: 8 counted: 7', 'test': 'show router 100012000 bfd session'}
-    {'Status': 'NOK', 'Comment': ''No. of BFD sessions: 8 counted: 7', 'test': 'show router 100012000 bfd session'}
-    {'Status': 'NOK', 'Comment': ''No. of BFD sessions: 8 counted: 7', 'test': 'show router 100012000 bfd session'}
-    {'Status': 'NOK', 'Comment': ''No. of BFD sessions: 8 counted: 7', 'test': 'show router 100012000 bfd session'}
-]
-
-###############################################
-{'Status': 'NOK', 'Comment': ''No. of BFD sessions: 8 counted: 7', 'test': 'show router 100012000 bfd session'}
-{'Status': 'NOK', 'Comment': ''No. of BFD sessions: 8 counted: 7', 'test': 'show router 100012000 bfd session'}
-{'Status': 'NOK', 'Comment': ''No. of BFD sessions: 8 counted: 7', 'test': 'show router 100012000 bfd session'}
-{'Status': 'NOK', 'Comment': ''No. of BFD sessions: 8 counted: 7', 'test': 'show router 100012000 bfd session'}

@@ -5,7 +5,7 @@ import yaml
 import sys
 from cmg_query.logger import logger
 from cmg_query import error_codes as error_codes
-# Hello World
+import keyring
 
 
 class CmgQuery:
@@ -17,8 +17,12 @@ class CmgQuery:
         self.__config_file = self.__read_config_file(self.__config_file_name)
         self.__ip = self.__config_file['host']['ip']
         self.__port = self.__config_file['host']['port']
-        self.__username = self.__config_file['host']['username']
-        self.__password = self.__config_file['host']['password']
+
+        # keyring.set_password(service_name="CMG_dev", username="xxx", password="xxx")
+        keyring_service_name = self.__config_file['host']['keyring_service_name']
+        kr = keyring.get_credential(service_name=keyring_service_name, username=None)
+        self.__username = kr.username
+        self.__password = kr.password
 
         # Todo: shall be lowercase
         self.MAX_RECV = 23
@@ -51,8 +55,8 @@ class CmgQuery:
             logger.info('no config file has been provided at command line')
             exit(1)
         else:
-            config_file = './cfg/tests_dev.yaml'
-            # config_file = '/home/runner/work/cmg_health_checks/cmg_health_checks/cfg/tests_dev.yaml'
+            config_file = './config/tests_dev.yaml'
+            # config_file = '/home/runner/work/cmg_health_checks/cmg_health_checks/config/tests_dev.yaml'
             logger.info('no config file in argv, using ' + config_file)
         return config_file
 
@@ -91,7 +95,7 @@ class CmgQuery:
     def disconnect(self):
         # Todo: if self.__client doesn't work, can't figure out how to check whether it's closed or not
         if self.__client:
-            logger.info('closing ssh connection to' + self.__ip + ':' + str(self.__port))
+            logger.info('closing ssh connection to ' + self.__ip + ':' + str(self.__port))
             self.__client.close()
             self.__client = None    # Todo: not sure if this is the best solution?!
             # Todo: the idea comes from chatgpt, so don't blame me

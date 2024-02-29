@@ -1,12 +1,15 @@
 host:
-    ip: 10.88.112.4
-    port: 22
-    username: hcuser
-    password: Hgb76.8LMQYs!jnE
+    ip: 127.0.0.1
+    port: 2222
+    keyring_service_name: CMG_dev
+bfd_session_count:
+  6203: 4
+  9999: 8
 test_pings:
   - ping router 6203 source 10.251.74.130 10.251.74.129 count 1
   - ping router 6207 source 10.122.171.130 10.122.171.129 count 1
 test_bfd_sessions:
   - show router 100012000 bfd session
   - show router 6203 bfd session
+  - show router 9999 bfd session
   # - show router 3218 bfd session
