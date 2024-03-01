@@ -8,7 +8,8 @@ logger.setLevel(logging.DEBUG)
 ch = logging.StreamHandler()
 ch.setLevel(logging.DEBUG)
 
-formatter = logging.Formatter('[%(asctime).19s] [%(levelname).3s] %(message)s')
+# formatter = logging.Formatter('[%(asctime).19s] [%(levelname).3s] %(message)s')
+formatter = logging.Formatter('[%(asctime).19s] [%(levelname)s] %(message)s')
 
 # handler = logging.FileHandler('../logs/app.log')
 

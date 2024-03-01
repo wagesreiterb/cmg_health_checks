@@ -7,6 +7,7 @@ def main():
     cmg.test_bfd_sessions()
     cmg.test_pings()
     cmg.disconnect()
+    cmg.dump_to_outfile()
 
 
 def my_print():

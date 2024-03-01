@@ -6,6 +6,9 @@ import sys
 from cmg_query.logger import logger
 from cmg_query import error_codes as error_codes
 import keyring
+import json
+from datetime import datetime
+from pytz import timezone
 
 
 class CmgQuery:
@@ -19,10 +22,15 @@ class CmgQuery:
         self.__port = self.__config_file['host']['port']
 
         # keyring.set_password(service_name="CMG_dev", username="xxx", password="xxx")
-        keyring_service_name = self.__config_file['host']['keyring_service_name']
+        keyring_service_name = self.__config_file['host']['name']
         kr = keyring.get_credential(service_name=keyring_service_name, username=None)
-        self.__username = kr.username
-        self.__password = kr.password
+        if kr is not None:
+            self.__username = kr.username
+            self.__password = kr.password
+        else:
+            logger.error('credentials for ' + keyring_service_name
+                         + ' cannot be found via keyring, terminating program...')
+            exit(1)
 
         # Todo: shall be lowercase
         self.MAX_RECV = 23
@@ -32,32 +40,51 @@ class CmgQuery:
         # CONTINUE_TEXT = 'Press any key to continue'
         # Todo: why does the below string work?
         self.cmg_continue_text = 'Press any key to continue'
+
+        self.__vprn_peers_list = []
+        self.__bfd_sessions_list = []
+
+        current_time = datetime.now(timezone('Europe/Vienna'))
+        current_time_string = current_time.strftime('%Y%m%dT%H%M%S%Z%z')
+        print("current time:-", current_time_string)
         try:
-            self.__outfile = open('myfile.txt', 'w')
+            self.__outfile_bfd_sessions = open('output_files/' + self.__config_file['host']['name']
+                                               + '_bfdSessions_' + current_time_string + '.json', 'w')
+            self.__outfile_vprn_peers = open('output_files/' + self.__config_file['host']['name']
+                                             + '_vprnPeers_' + current_time_string + '.json', 'w')
         except Exception as error:
             logger.error(error)
             exit(1)
 
     def __del__(self):
-        if self.__outfile:
-            self.__outfile.close()
-        self.disconnect()
+        # Todo: if the program is exited before the vars are initialized, an AttributeError Exception is thrown \
+        #  needs to be reworked most probably
+        # if self.__outfile_bfd_sessions:
+        #     self.__outfile_bfd_sessions.close()
+        # if self.__outfile_vprn_peers:
+        #     self.__outfile_vprn_peers.close()
+        # self.disconnect()
+        pass
 
     def get_client(self):
         return self.__client
+
+    def dump_to_outfile(self):
+        json.dump(self.__vprn_peers_list, self.__outfile_vprn_peers, indent=4)
+        json.dump(self.__bfd_sessions_list, self.__outfile_bfd_sessions, indent=4)
 
     def __config_file(self):
         # check if the config file has been provided in the command line
         # if not, exit with an error code
         if len(sys.argv) == 2:
+            # Todo: if the config file is wrong and cannot be found, the program must exit
             config_file = sys.argv[1]
-            # logger.error(error_codes.error_codes['ERR_NO_CONFIG_FILE']['error_message'])
-            logger.info('no config file has been provided at command line')
-            exit(1)
+            logger.info('using config file ' + config_file)
+            # exit(1)
         else:
             config_file = './config/tests_dev.yaml'
             # config_file = '/home/runner/work/cmg_health_checks/cmg_health_checks/config/tests_dev.yaml'
-            logger.info('no config file in argv, using ' + config_file)
+            logger.warning('no config file in argv, using ' + config_file)
         return config_file
 
     def __read_config_file(self, config_file_name: str):
@@ -145,18 +172,26 @@ class CmgQuery:
             cmg_output = self.cmg_output(ping_command)
             logger.debug(cmg_output)
             result = self.ping_result(ping_command, cmg_output)
-            self.__outfile.write(str(result) + '\n')
+            # self.__outfile.write(str(result) + '\n')
+            self.__vprn_peers_list.append(result)
 
-    def ping_result(self, command, cmg_output):
+    def ping_result(self, command: str, cmg_output: str) -> dict:
         # searches the string '0.00% packet loss' within the output received from the CMG
         # '0.00% packet loss' means the test has passed
+        result = {}
         for line in cmg_output.split('\r\n'):
             if 'packet loss' in line:
                 packet_loss = line.split(', ')[2]
         if '0.00% packet loss' in packet_loss:
-            return 'OK', packet_loss, command
+            # return 'OK', packet_loss, command
+            result['status'] = 'OK'
         else:
-            return 'NOK', packet_loss, command
+            # return 'NOK', packet_loss, command
+            result['status'] = 'NOK'
+
+        result['comment'] = packet_loss
+        result['command'] = command
+        return result
 
     def __number_of_bfd_sessions_from_cmg_footer(self, cmg_output: str) -> int:
         # parses the output of the CMG and returns the number of BFD sessions
@@ -167,6 +202,7 @@ class CmgQuery:
         return int(number_of_bfd_sessions[0])
 
     def __bfd_sessions(self, command: str, cmg_output: str) -> list:
+        # Todo: this needs to be thoroughly tested
         # cmg_output: the whole output from a CMG as string
         # command executed on CMG: show router 6203 bfd session
         # returns a list of dictionaries, each dictionary contains a bfd session
@@ -177,13 +213,19 @@ class CmgQuery:
         linecounter = 0
         bfd_sessions = []
         for line in result_tuple.split('\r\n'):
-            logger.debug(str(linecounter) + ': ' + repr(line))
+            logger.debug('+' + str(linecounter) + ': ' + repr(line))
             if self.cmg_continue_text in line:
                 # Press any key ... is still in the string although it is not seen on the screen anymore
                 # 'Press any key to continue (Q to quit)\x00\r                                      \rCMG901101_VOVI_LB2NET2AL1                            Up     47848318   39095849'
                 logger.info('cmg_continue_text found: ' + repr(line))
                 line = line.replace('Press any key to continue (Q to quit)\x00\r                                      \r', '')
+                # line = line.replace(
+                #     'Press any key to continue (Q to quit)\x00', '')
                 logger.info('replaced line without cmg_continue_text: ' + repr(line))
+            logger.debug('-' + str(linecounter) + ': ' + repr(line))
+            if self.cmg_continue_text in line:
+                continue
+
             if linecounter % 4 == 0:  # 1st line
                 bfd_session = {}
                 bfd_session['session_id'], bfd_session['state'], bfd_session['tx_pkts'], bfd_session[
@@ -199,6 +241,7 @@ class CmgQuery:
                 bfd_session['loc_addr'] = line.split()[0]
                 bfd_sessions.append(bfd_session)
             linecounter += 1
+            # logger.debug(linecounter)
 
         logger.debug('bfd_sessions from cmg_output footer: ' + str(self.__number_of_bfd_sessions_from_cmg_footer(cmg_output)))
         logger.debug('bfd_sessions counted from list: ' + str(len(bfd_sessions)))
@@ -206,18 +249,25 @@ class CmgQuery:
         number_of_bfd_sessions_from_output = self.__number_of_bfd_sessions_from_cmg_footer(cmg_output)
 
         if number_of_bfd_sessions_counted == number_of_bfd_sessions_from_output:
-            result, result_bfd_sessions = self.__check_bfd_sessions(bfd_sessions)
-            logger.debug(result + ', ' + str(result_bfd_sessions) + ', ' + command)
-            self.__outfile.write(result + ', ' + 'all ' + str(
-                number_of_bfd_sessions_counted) + ' bfd sessions are Up' + ', ' + command + '\n')
+            result_status, result_bfd_sessions = self.__check_bfd_sessions(bfd_sessions)
+            logger.debug(result_status + ', ' + str(result_bfd_sessions) + ', ' + command)
+            # self.__outfile_bfd_sessions.write(result + ', ' + 'all ' + str(
+            #     number_of_bfd_sessions_counted) + ' bfd sessions are Up' + ', ' + command + '\n')
+            result_comment = 'all ' + str(number_of_bfd_sessions_counted) + ' bfd sessions are Up'
+            result = {'status': result_status, 'comment': result_comment, 'check': command}
+            self.__bfd_sessions_list.append(result)
         else:
             # result_bfd_sessions = self.__check_bfd_sessions(bfd_sessions[1])
-            result, result_bfd_sessions = self.__check_bfd_sessions(bfd_sessions)
-            result = 'NOK'  # overwrite the result, as at least one session is missing
-            logger.debug(result + ', ' + str(result_bfd_sessions) + ', ' + command)
+            result_status, result_bfd_sessions = self.__check_bfd_sessions(bfd_sessions)
+            result_status = 'NOK'  # overwrite the result, as at least one session is missing
+            logger.debug(result_status + ', ' + str(result_bfd_sessions) + ', ' + command)
             # self.__outfile.write(result + ', ' + str(result_bfd_sessions) + ', ' + command + '\n')
-            self.__outfile.write(result + ', ' + 'No. of BFD sessions: ' + str(number_of_bfd_sessions_from_output) +
-                                 ' counted: ' + str(number_of_bfd_sessions_counted) + ', ' + command + '\n')
+            # self.__outfile_bfd_sessions.write(result + ', ' + 'No. of BFD sessions: ' + str(number_of_bfd_sessions_from_output) +
+            #                      ' counted: ' + str(number_of_bfd_sessions_counted) + ', ' + command + '\n')
+            result_comment = 'No. of BFD sessions: ' + str(number_of_bfd_sessions_from_output) + ' counted: ' \
+                             + str(number_of_bfd_sessions_counted)
+            result = {'status': result_status, 'comment': result_comment, 'command': command}
+            self.__bfd_sessions_list.append(result)
 
     def __check_bfd_sessions(self, bfd_sessions: list) -> tuple[str, list]:
         # checks if all bfd sessions are up

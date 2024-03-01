@@ -1,0 +1,28 @@
+host:
+    name: CMG901101
+    ip: 10.88.112.4
+    port: 22
+test_pings:
+  - ping router 6203 source 10.251.74.130 10.251.74.129 count 1
+  - ping router 6207 source 10.122.171.130 10.122.171.129 count 1
+test_bfd_sessions:
+  - show router 100012000 bfd session
+  - show router 6203 bfd session
+  - show router 3218 bfd session
+  - show router 6203 bfd session
+  - show router 6207 bfd session
+  - show router 6246 bfd session
+  - show router 6250 bfd session
+  - show router 6251 bfd session
+  - show router 9990 bfd session
+  - show router 9999 bfd session
+  - show router 6203001 bfd session
+  - show router 6203002 bfd session
+  - show router 6251001 bfd session
+  - show router 6251002 bfd session
+  - show router 9990001 bfd session
+  - show router 9990002 bfd session
+  - show router 100012000 bfd session
+  - show router 100012001 bfd session
+  - show router 100012002 bfd session
+

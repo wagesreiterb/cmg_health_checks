@@ -1,7 +1,7 @@
 host:
+    name: CMGDev
     ip: 127.0.0.1
     port: 2222
-    keyring_service_name: CMG_dev
 bfd_session_count:
   6203: 4
   9999: 8
