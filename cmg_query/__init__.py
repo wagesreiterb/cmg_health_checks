@@ -46,7 +46,6 @@ class CmgQuery:
 
         current_time = datetime.now(timezone('Europe/Vienna'))
         current_time_string = current_time.strftime('%Y%m%dT%H%M%S%Z%z')
-        print("current time:-", current_time_string)
         try:
             self.__outfile_bfd_sessions = open('output_files/' + self.__config_file['host']['name']
                                                + '_bfdSessions_' + current_time_string + '.json', 'w')
@@ -203,12 +202,14 @@ class CmgQuery:
 
     def __bfd_sessions(self, command: str, cmg_output: str) -> list:
         # Todo: this needs to be thoroughly tested
+        #  Something is still wrong, but the error doesn't occur all the time
         # cmg_output: the whole output from a CMG as string
         # command executed on CMG: show router 6203 bfd session
         # returns a list of dictionaries, each dictionary contains a bfd session
         result = re.findall('-------------------------------------------------------------------------------\r\n(.*?)'
                             '-------------------------------------------------------------------------------\r\n',
                             cmg_output, flags=re.S)
+        # logger.debug(result)
         result_tuple = result[0].strip()
         linecounter = 0
         bfd_sessions = []
