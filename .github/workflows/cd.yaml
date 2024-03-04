@@ -18,6 +18,7 @@ jobs:
         key: ${{ secrets.SERVER_KEY }}
         script: |
             cd /home/health_checks/cmg_health_checks
+            cat bled.txt
             git config --global --add safe.directory /home/health_checks/cmg_health_checks
             git checkout master
             git pull origin master --allow-unrelated-histories
