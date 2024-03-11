@@ -49,5 +49,6 @@ jobs:
           echo "2222"
           pip install keyring
           pip install pytz
+          python -c "import keyring; keyring.set_password(service_name='CMGDev', username='cmg', password='cmg')"
           python3 -m unittest discover -s ./test  -p 'test_*.py'
           echo "3333"
