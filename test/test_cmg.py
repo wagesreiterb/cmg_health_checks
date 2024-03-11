@@ -9,7 +9,7 @@ class TestCmgQuery(unittest.TestCase):
 
     def test_login(self):
         # self.assertRaises(NoValidConnectionsError, self.cmg.connect)
-        welcome_message = self.cmg.connect('127.0.0.2')
+        welcome_message = self.cmg.connect('127.0.0.1')
         # self.assertTrue(welcome_message.startswith("Fake SR OS Software"), "Unexpected welcome message")
         self.assertTrue(welcome_message.startswith("Fake OS Software"))
         self.cmg.disconnect()
