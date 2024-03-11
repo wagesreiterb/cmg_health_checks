@@ -47,5 +47,6 @@ jobs:
           # echo "1111"
           # ssh -v -tt cmg@127.0.0.1 -p 2222
           echo "2222"
+          pip install -r ./cmg_health_checks/requirements.txt
           python3 -m unittest discover -s ./test  -p 'test_*.py'
           echo "3333"
