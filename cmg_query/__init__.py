@@ -25,7 +25,7 @@ class CmgQuery:
 
         # keyring.set_password(service_name="CMG_dev", username="xxx", password="xxx")
         keyring_service_name = self.__config_file['host']['name']
-        kr = keyring.get_credential(service_name=keyring_service_name, username=None)
+        kr = keyring.get_credential(service_name=keyring_service_name, username='cmg')
         if kr is not None:
             self.__username = kr.username
             self.__password = kr.password
