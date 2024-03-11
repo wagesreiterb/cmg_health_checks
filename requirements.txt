@@ -1,1 +1,4 @@
 keyring
+pyyaml
+paramiko
+pytz

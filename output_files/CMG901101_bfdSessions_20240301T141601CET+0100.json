@@ -1,0 +1,97 @@
+[
+    {
+        "status": "OK",
+        "comment": "all 8 bfd sessions are Up",
+        "check": "show router 100012000 bfd session"
+    },
+    {
+        "status": "OK",
+        "comment": "all 4 bfd sessions are Up",
+        "check": "show router 6203 bfd session"
+    },
+    {
+        "status": "OK",
+        "comment": "all 4 bfd sessions are Up",
+        "check": "show router 3218 bfd session"
+    },
+    {
+        "status": "OK",
+        "comment": "all 4 bfd sessions are Up",
+        "check": "show router 6203 bfd session"
+    },
+    {
+        "status": "OK",
+        "comment": "all 4 bfd sessions are Up",
+        "check": "show router 6207 bfd session"
+    },
+    {
+        "status": "OK",
+        "comment": "all 4 bfd sessions are Up",
+        "check": "show router 6246 bfd session"
+    },
+    {
+        "status": "OK",
+        "comment": "all 4 bfd sessions are Up",
+        "check": "show router 6250 bfd session"
+    },
+    {
+        "status": "OK",
+        "comment": "all 8 bfd sessions are Up",
+        "check": "show router 6251 bfd session"
+    },
+    {
+        "status": "OK",
+        "comment": "all 8 bfd sessions are Up",
+        "check": "show router 9990 bfd session"
+    },
+    {
+        "status": "OK",
+        "comment": "all 4 bfd sessions are Up",
+        "check": "show router 9999 bfd session"
+    },
+    {
+        "status": "OK",
+        "comment": "all 2 bfd sessions are Up",
+        "check": "show router 6203001 bfd session"
+    },
+    {
+        "status": "OK",
+        "comment": "all 2 bfd sessions are Up",
+        "check": "show router 6203002 bfd session"
+    },
+    {
+        "status": "OK",
+        "comment": "all 4 bfd sessions are Up",
+        "check": "show router 6251001 bfd session"
+    },
+    {
+        "status": "OK",
+        "comment": "all 4 bfd sessions are Up",
+        "check": "show router 6251002 bfd session"
+    },
+    {
+        "status": "OK",
+        "comment": "all 4 bfd sessions are Up",
+        "check": "show router 9990001 bfd session"
+    },
+    {
+        "status": "OK",
+        "comment": "all 4 bfd sessions are Up",
+        "check": "show router 9990002 bfd session"
+    },
+    {
+        "status": "OK",
+        "comment": "all 8 bfd sessions are Up",
+        "check": "show router 100012000 bfd session"
+    },
+    {
+        "status": "OK",
+        "comment": "all 4 bfd sessions are Up",
+        "check": "show router 100012001 bfd session"
+    },
+    {
+        "status": "OK",
+        "comment": "all 4 bfd sessions are Up",
+        "check": "show router 100012002 bfd session"
+    }
+]

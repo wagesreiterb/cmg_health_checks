@@ -14,6 +14,7 @@ from pytz import timezone
 
 class CmgQuery:
     def __init__(self):
+        print("test")
         self.__client = None
         self.__channel = None
 
