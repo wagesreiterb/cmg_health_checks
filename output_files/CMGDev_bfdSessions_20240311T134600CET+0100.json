@@ -1,0 +1,17 @@
+[
+    {
+        "status": "NOK",
+        "comment": "No. of BFD sessions: 8 counted: 7",
+        "command": "show router 100012000 bfd session"
+    },
+    {
+        "status": "OK",
+        "comment": "all 4 bfd sessions are Up",
+        "check": "show router 6203 bfd session"
+    },
+    {
+        "status": "NOK",
+        "comment": "all 4 bfd sessions are Up",
+        "check": "show router 9999 bfd session"
+    }
+]
