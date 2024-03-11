@@ -51,5 +51,6 @@ jobs:
           pip install pytz
           pip install keyrings.alt
           python -c "import keyring; keyring.set_password(service_name='CMGDev', username='cmg', password='cmg')"
+          python -c "import keyring; keyring.get_password(service_name='CMGDev', username=None)"
           python3 -m unittest discover -s ./test  -p 'test_*.py'
           echo "3333"
